@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const EventItem = require('./models/EventItem.jsx');  
+const EventItem = require('./models/EventItem');  // Ensure correct path and file extension
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
     res.send('Event Registration API');
 });
 
-// Routes for managing events
+// GET all events
 app.get('/events', async (req, res) => {
     try {
         const events = await EventItem.find();
@@ -25,6 +25,7 @@ app.get('/events', async (req, res) => {
     }
 });
 
+// POST a new event
 app.post('/events', async (req, res) => {
     const { name, date, location } = req.body;
 
