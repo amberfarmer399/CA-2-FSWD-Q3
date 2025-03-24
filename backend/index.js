@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const dotenv = require('dotenv');
-const EventItem = require('./models/EventItem');  // Ensure correct path and file extension
+const EventItem = require('./models/EventItem.jsx');  
 
 dotenv.config();
 
@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
     res.send('Event Registration API');
 });
 
-// GET all events
+// Routes for managing events
 app.get('/events', async (req, res) => {
     try {
         const events = await EventItem.find();
@@ -25,7 +25,6 @@ app.get('/events', async (req, res) => {
     }
 });
 
-// POST a new event
 app.post('/events', async (req, res) => {
     const { name, date, location } = req.body;
 
@@ -43,14 +42,14 @@ app.post('/events', async (req, res) => {
     }
 });
 
-const PORT = 5000;
+const PORT = 8000;
 const MONGO_URI = process.env.MONGO_URI;
 
 mongoose.connect(MONGO_URI)
     .then(() => {
         console.log('MongoDB Connected');
         app.listen(PORT, () => {
-            console.log(`Server running on port ${PORT}`);
+            console.log(`Server is running on http://localhost:${PORT}`)
         });
     })
     .catch(err => {

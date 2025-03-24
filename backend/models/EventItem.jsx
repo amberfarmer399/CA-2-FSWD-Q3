@@ -1,4 +1,3 @@
-
 const mongoose = require('mongoose');
 
 const eventItemSchema = new mongoose.Schema({
@@ -19,3 +18,4 @@ const eventItemSchema = new mongoose.Schema({
 const EventItem = mongoose.model('EventItem', eventItemSchema);
 
 module.exports = EventItem;
+
