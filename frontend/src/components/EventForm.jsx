@@ -1,65 +1,48 @@
-import { useState } from 'react';
+import React, { useState } from "react";
 
-function EventForm() {
-    const [formData, setFormData] = useState({
-        name: '',
-        date: '',
-        location: ''
-    });
+function EventForm({ onAddEvent }) {
+  const [title, setTitle] = useState("");
+  const [date, setDate] = useState("");
+  const [description, setDescription] = useState("");
 
-    const handleChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onAddEvent({ title, date, description });
+    setTitle("");
+    setDate("");
+    setDescription("");
+  };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-            const response = await fetch('http://localhost:5000/events', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-
-            if (response.ok) {
-                alert('Event created successfully!');
-                setFormData({ name: '', date: '', location: '' }); // Reset form
-            } else {
-                alert('Error creating event');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    };
-
-    return (
-        <div>
-            <h2>Register a New Event</h2>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    Event Name:
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
-                </label>
-                <br />
-                <label>
-                    Date:
-                    <input type="date" name="date" value={formData.date} onChange={handleChange} required />
-                </label>
-                <br />
-                <label>
-                    Location:
-                    <input type="text" name="location" value={formData.location} onChange={handleChange} required />
-                </label>
-                <br />
-                <button type="submit">Create Event</button>
-            </form>
-        </div>
-    );
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label>Title:</label>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Date:</label>
+        <input
+          type="date"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
+          required
+        />
+      </div>
+      <div>
+        <label>Description:</label>
+        <textarea
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        ></textarea>
+      </div>
+      <button type="submit">Add Event</button>
+    </form>
+  );
 }
 
 export default EventForm;
